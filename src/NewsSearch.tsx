@@ -42,16 +42,23 @@ import {
 */}
 
 const NewsSearch: React.FC = () => {
-  const todaydate = new Date().toISOString().slice(0, 10);
+  const todaydate = new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().slice(0, 10);
   const startOfWeekdate = new Date(new Date().setDate(new Date().getDate() - new Date().getDay())).toISOString().slice(0, 10);
   const lastWeekStartdate= new Date(new Date().setDate(new Date().getDate() - 7)).toISOString().slice(0, 10);
   const startOfMonthdate = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().slice(0, 10);
   const lastMonthStartdate = new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1).toISOString().slice(0, 10);
+
+  console.log("Today's Date:", todaydate);
+  console.log("Start of Week Date:", startOfWeekdate);
+  console.log("Last Week's Start Date:", lastWeekStartdate);
+  console.log("Start of Month Date:", startOfMonthdate);
+  console.log("Last Month's Start Date:", lastMonthStartdate);
   
   const [query, setQuery] = useState("");
   const [sortBy, setSortBy] = useState("relevancy");
   const [fromdate, setFrom] = useState(todaydate);
   const [articles, setArticles] = useState<any[]>([]);
+  const [results, setResults] = useState<any[]>([]);
   const apiKey = "2dc9ba9dbc3d4c399f8111430e170a06";
 
   useEffect(() => {
@@ -66,6 +73,7 @@ const NewsSearch: React.FC = () => {
         );
         const data = await response.json();
         setArticles(data.articles);
+        setResults(data.totalResults);
       }
     } catch (error) {
       console.error("Error fetching articles: ", error);
@@ -180,6 +188,8 @@ const NewsSearch: React.FC = () => {
         </Select>
         */}
       </Stack>
+
+      <Typography>Results : {results}</Typography>
 
       <Stack
         gap={2}
