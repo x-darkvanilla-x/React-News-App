@@ -1,30 +1,46 @@
-# React + TypeScript + Vite
+# NewsSearch React Component
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React component for searching and displaying news articles using the NewsAPI.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Search news articles by keyword
+- Filter articles by date range
+- Sort articles by relevancy, popularity, or published date
+- Click on articles to read more
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+To use this component in your React project, install it via npm:
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```bash
+npm install --save @mui/material @mui/icons-material
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Usage
+
+Import the component into your project and use it like this:
+
+```jsx
+import React from "react";
+import NewsSearch from "./NewsSearch";
+
+function App() {
+  return (
+    <div>
+      <h1>News Search</h1>
+      <NewsSearch />
+    </div>
+  );
+}
+
+export default App;
+```
+
+## Configuration
+
+You need to obtain an API key from [NewsAPI](https://newsapi.org/) and replace the `apiKey` variable in the component with your API key.
+
+## Credits
+
+This component was created by Dipesh Adelkar.
