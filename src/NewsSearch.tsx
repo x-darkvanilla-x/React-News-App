@@ -17,12 +17,14 @@ import {
   Event,
   Newspaper,
   Search,
+  SentimentVeryDissatisfiedTwoTone,
   Today,
   TrendingUp,
   Whatshot,
 } from "@mui/icons-material";
 
-{/* 
+{
+  /* 
 import {
   Business,
   DateRange,
@@ -39,26 +41,50 @@ import {
   TrendingUp,
   Whatshot,
 } from "@mui/icons-material";
-*/}
+*/
+}
 
 const NewsSearch: React.FC = () => {
-  const todaydate = new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().slice(0, 10);
-  const startOfWeekdate = new Date(new Date().setDate(new Date().getDate() - new Date().getDay())).toISOString().slice(0, 10);
-  const lastWeekStartdate= new Date(new Date().setDate(new Date().getDate() - 7)).toISOString().slice(0, 10);
-  const startOfMonthdate = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().slice(0, 10);
-  const lastMonthStartdate = new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1).toISOString().slice(0, 10);
+  const todaydate = new Date(new Date().setDate(new Date().getDate() - 1))
+    .toISOString()
+    .slice(0, 10);
+  const startOfWeekdate = new Date(
+    new Date().setDate(new Date().getDate() - new Date().getDay())
+  )
+    .toISOString()
+    .slice(0, 10);
+  const lastWeekStartdate = new Date(
+    new Date().setDate(new Date().getDate() - 7)
+  )
+    .toISOString()
+    .slice(0, 10);
+  const startOfMonthdate = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth(),
+    1
+  )
+    .toISOString()
+    .slice(0, 10);
+  const lastMonthStartdate = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth() - 1,
+    1
+  )
+    .toISOString()
+    .slice(0, 10);
 
   console.log("Today's Date:", todaydate);
   console.log("Start of Week Date:", startOfWeekdate);
   console.log("Last Week's Start Date:", lastWeekStartdate);
   console.log("Start of Month Date:", startOfMonthdate);
   console.log("Last Month's Start Date:", lastMonthStartdate);
-  
+
   const [query, setQuery] = useState("");
   const [sortBy, setSortBy] = useState("relevancy");
   const [fromdate, setFrom] = useState(todaydate);
   const [articles, setArticles] = useState<any[]>([]);
   const [results, setResults] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
   const apiKey = "2dc9ba9dbc3d4c399f8111430e170a06";
 
   useEffect(() => {
@@ -67,6 +93,7 @@ const NewsSearch: React.FC = () => {
 
   const fetchArticles = async (searchQuery: string) => {
     try {
+      setLoading(true);
       if (searchQuery.trim() !== "") {
         const response = await fetch(
           `https://newsapi.org/v2/everything?q=${searchQuery}&from=${fromdate}&sortBy=${sortBy}&apiKey=${apiKey}`
@@ -77,6 +104,8 @@ const NewsSearch: React.FC = () => {
       }
     } catch (error) {
       console.error("Error fetching articles: ", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -128,31 +157,27 @@ const NewsSearch: React.FC = () => {
           </MenuItem>
         </Select>
 
-        <Select 
+        <Select
           value={fromdate}
           onChange={(e) => {
             setFrom(e.target.value);
             refreshSearch();
-          }}>
+          }}
+        >
           <MenuItem value={todaydate} sx={{ display: "flex", gap: 4 }}>
-            <Today sx={{ verticalAlign: "middle", color: "#2196f3" }} />{" "}
-            Today
+            <Today sx={{ verticalAlign: "middle", color: "#2196f3" }} /> Today
           </MenuItem>
           <MenuItem value={startOfWeekdate} sx={{ display: "flex", gap: 4 }}>
             <DateRange sx={{ verticalAlign: "middle", color: "#f50057" }} />{" "}
             This Week
           </MenuItem>
           <MenuItem value={lastWeekStartdate} sx={{ display: "flex", gap: 4 }}>
-            <DateRange sx={{ verticalAlign: "middle", color: "#f50057" }} /> 
+            <DateRange sx={{ verticalAlign: "middle", color: "#f50057" }} />
             Last Week
           </MenuItem>
           <MenuItem value={startOfMonthdate} sx={{ display: "flex", gap: 4 }}>
-            <Event sx={{ verticalAlign: "middle", color: "#ff9800" }} />{" "}
-            This Month
-          </MenuItem>
-          <MenuItem value={lastMonthStartdate} sx={{ display: "flex", gap: 4 }}>
-            <Event sx={{ verticalAlign: "middle", color: "#ff9800" }} />{" "}
-            Last Month
+            <Event sx={{ verticalAlign: "middle", color: "#ff9800" }} /> This
+            Month
           </MenuItem>
         </Select>
 
@@ -191,33 +216,43 @@ const NewsSearch: React.FC = () => {
 
       <Typography>Results : {results}</Typography>
 
-      <Stack
-        gap={2}
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "center",
-        }}
-      >
-        {articles.map((article, index) => (
-          <Card key={index} sx={{ width: 300, marginRight: "auto"}}>
-            <CardMedia
-              sx={{ height: 200 }}
-              image={article.urlToImage}
-            ></CardMedia>
-            <CardContent>
-              <Typography variant="body1">{article.title}</Typography>
-              <Typography variant="caption">{article.description}</Typography>
-            </CardContent>
-            <CardActions>
-              <Button href={article.url} target="_blank">
-                Learn More
-              </Button>
-            </CardActions>
-          </Card>
-        ))}
-      </Stack>
+      {loading ? (
+        <Typography>Loading...</Typography>
+      ) : (
+        <Stack gap={3}>
+          <Stack
+            gap={2}
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              justifyContent: "center",
+            }}
+          >
+            {articles.map((article, index) => (
+              <Card key={index} sx={{ width: 300, marginRight: "auto" }}>
+                <CardMedia
+                  sx={{ height: 200 }}
+                  image={article.urlToImage}
+                ></CardMedia>
+                <CardContent>
+                  <Typography variant="body1">{article.title}</Typography>
+                  <Typography variant="caption">{article.description}</Typography>
+                </CardContent>
+                <CardActions>
+                  <Button href={article.url} target="_blank">
+                    Learn More
+                  </Button>
+                </CardActions>
+              </Card>
+            ))}
+          </Stack>     
+          <Stack alignItems={"center"} gap={1}>
+            <SentimentVeryDissatisfiedTwoTone />
+            <Typography>"Oops! It looks like there are no more results to display. Try refining your search terms or check back later for updates."</Typography>
+          </Stack>
+        </Stack> 
+      )}
     </Stack>
   );
 };
