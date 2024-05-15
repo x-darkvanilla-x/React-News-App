@@ -13,6 +13,17 @@ import {
 } from "@mui/material";
 
 import {
+  DateRange,
+  Event,
+  Newspaper,
+  Search,
+  Today,
+  TrendingUp,
+  Whatshot,
+} from "@mui/icons-material";
+
+{/* 
+import {
   Business,
   DateRange,
   Devices,
@@ -28,6 +39,7 @@ import {
   TrendingUp,
   Whatshot,
 } from "@mui/icons-material";
+*/}
 
 const NewsSearch: React.FC = () => {
   const todaydate = new Date().toISOString().slice(0, 10);
@@ -136,7 +148,7 @@ const NewsSearch: React.FC = () => {
           </MenuItem>
         </Select>
 
-{/* 
+        {/* 
         <Select>
           <MenuItem value="business" sx={{ display: "flex", gap: 4 }}>
             <Business sx={{ verticalAlign: "middle", color: "#2196f3" }} />{" "}
@@ -166,7 +178,7 @@ const NewsSearch: React.FC = () => {
             technology
           </MenuItem>
         </Select>
-*/}
+        */}
       </Stack>
 
       <Stack
